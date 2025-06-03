@@ -4,12 +4,17 @@
 // g++ -o sdl2-fft sdl2-fft.cpp -Wall -lSDL2_image -lSDL2 -lfftw3
 
 #include <iostream>
+#include <filesystem>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include <math.h>
 #include <fftw3.h>
+
+#include "iwm_common.h"
+
 // Auxilary FFT functions  ----------------------------------------
 typedef struct
 {
@@ -331,11 +336,82 @@ void perform_operation
     }
 }
 
+//=====================
+// Watermarking
+//=====================
 
+
+
+//=====================
+// Display handling
+//=====================
+
+enum class 
+IWM_Creator_ImageDisplayMode {
+    watermarked,
+    difference,
+    difference_10x
+};
+
+struct IWM_Creator_DisplayData {
+
+    SDL_Surface *ImageSpatialDomain;
+    SDL_Surface *ImageFrequencyDomain;
+
+    SDL_Surface *WatermarkedImageSpatialDomain;
+    SDL_Surface *WatermarkedImageFrequencyDomain;
+
+    SDL_Renderer *ImageRenderer;
+    SDL_Texture *ImageSpatialDomainTexture;
+    SDL_Texture *ImageFrequencyDomainTexture;
+
+    SDL_Renderer *WatermarkedImageRenderer;
+    SDL_Texture *WatermarkedImageSpatialDomainTexture;
+    SDL_Texture *WatermarkedImageFrequencyDomainTexture;
+
+};
 
 //=====================
 // Main program
 //=====================
+
+
+
+struct
+IWM_Creator_State {
+    
+    IWM_Creator_ImageDisplayMode CurrentDisplayMode;
+
+    
+};
+
+struct 
+IWM_Creator_Options {
+    std::string InputFilePath = "";
+    iwm::IWM_Mode WatermarkingMode = iwm::IWM_Mode::lsb_spatial;
+    std::string KeyFilePath = "";
+    std::string OutputFilePath = "";
+};
+
+void 
+parse_options(int argc, char **argv, IWM_Creator_Options &options){
+    int i;
+
+    for(i = 0; i<argc; i++){
+        if (!strcmp(argv[i], "-i")){
+            options.InputFilePath = std::string(argv[i + 1]);
+        }
+        else if (!strcmp(argv[i], "-m")){
+            options.WatermarkingMode = iwm::parse_iwmmode(std::string(argv[i+1]));
+        }
+        else if (!strcmp(argv[i], "-k")){
+            options.KeyFilePath = std::string(argv[i + 1]);
+        }
+        else if (!strcmp(argv[i], "-o")){
+            options.OutputFilePath = std::string(argv[i + 1]);
+        }
+    }
+}
 
 void handle_input(SDL_Event &event, operationtype_t &operationType, datadisplayed_t &dataDisplayed, bool &quit){
     switch (event.key.keysym.sym){
@@ -384,8 +460,19 @@ void handle_input(SDL_Event &event, operationtype_t &operationType, datadisplaye
 
 
 
-int main(int argc, char **argv)
+
+int 
+main(int argc, char **argv)
 {
+    IWM_Creator_Options options;
+
+
+    parse_options(argc, argv, options);
+
+
+
+
+
     bool quit = false;
     SDL_Event event;
     SDL_Init(SDL_INIT_VIDEO);

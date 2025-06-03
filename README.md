@@ -2,7 +2,7 @@
 An image watermarker project for digital image processing
 
 
-## Image watermarker
+## Image watermark creator
 
 The main application used for applying a watermark onto an image. The watermark is understood as a 256-byte key. The program exposes a few different watermarking methods and shows how they affect the original image.
 
@@ -33,7 +33,7 @@ The program opens two windows:
 
 ### Controls
 
-The application can also be controlled upon launch. The user may switch the view in the second windows to also display the difference between the original and the watermarked version 
+The application can also be controlled upon launch. The user may switch the view in the second windows to also display the difference between the original and the watermarked version (up and down arrow keys).
 
 
 ## Image watermark checker

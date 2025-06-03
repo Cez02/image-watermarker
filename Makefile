@@ -1,18 +1,19 @@
 #----------------------------------------------------------
 CXX=g++
-CFLAGS= -I. 
+CXXFLAGS = -I. -std=c++20
+CFLAGS= -I. -std=c++20
 LFLAGS= 
 
 default: 
 
 clean:
-	rm imgwatermarker imgwatermark_checker
+	rm iwm_creator iwm_checker
 
-imgwatermarker: imgwatermarker.cpp
-	g++ -o imgwatermarker imgwatermarker.cpp  -Wall -O -I/usr/include/SDL2 -lSDL2_image -lSDL2 -lfftw3
+iwm_creator: iwm_creator.cpp
+	g++ -o iwm_creator iwm_creator.cpp  -Wall -O -I/usr/include/SDL2 -lSDL2_image -lSDL2 -lfftw3
 
-imgwatermark_checker: imgwatermarkchecker.cpp
-	g++ -o imgwatermark_checker imgwatermarkchecker.cpp  -Wall -O -I/usr/include/SDL2 -lSDL2_image -lSDL2 -lfftw3
+iwm_checker: iwm_checker.cpp
+	g++ -o iwm_checker iwm_checker.cpp  -Wall -O -I/usr/include/SDL2 -lSDL2_image -lSDL2 -lfftw3
 
 
 %.o:    %.C
