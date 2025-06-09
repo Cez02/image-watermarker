@@ -4,14 +4,19 @@
 #include <stdexcept>
 #include <format>
 
+#define MIDB_SECRET_KEY_A 2137
+#define MIDB_SECRET_KEY_B 420
+
+// 1000000 works well, anything below gives poor results
+#define MIDB_K_COEFF 1000000
+
+
 namespace iwm {
     
     enum class IWM_Mode {
         lsb_spatial,
         pvd_spatial,
         ae_spatial,
-        dft_me,
-        dct_fe,
         midb_emb,
         MODE_COUNT
     };
@@ -24,8 +29,6 @@ namespace iwm {
         { "lsb_spatial", "Least Significant Bit Insertion" },
         { "pvd_spatial", "Pixel Value Differencing" },
         { "ae_spatial", "Additive Embedding" },
-        { "dft_me", "DFT Magnitude Embedding (LSB)" },
-        { "dct_fe", "DCT Frequency Embedding (LSB)" },
         { "midb_emb", "Middle band DFT-DCT Embedding" },
     };
 
